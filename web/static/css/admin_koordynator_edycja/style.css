@@ -1,0 +1,29 @@
+.naglowek
+{
+    background-color: #2ECEB0;
+}
+
+.koordynator
+{
+    background-color: #9DFFE8;
+}
+
+.koordynator:hover
+{
+    background-color: #FF8D7E;
+    cursor: pointer;
+}
+
+table
+{
+    border-collapse: collapse;
+    width: 100%;
+    font-size:16px;
+    background-color: #9DFFE8;
+}
+
+table, td
+{
+    border: 2px solid black;
+    padding: 5px;
+}

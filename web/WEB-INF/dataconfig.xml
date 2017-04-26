@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+        <!--<property name="url" value="jdbc:oracle:thin://212.33.90.213:1521/xe" />-->
+        <property name="url" value="jdbc:oracle:thin:@212.33.90.213:1521:xe" />
+        <property name="username" value="tomasz_nastaly" />
+        <property name="password" value="tomasz_nastaly" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="podopiecznyDAO" class="com.example.main.webapp.PodopiecznyDAOImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="adminDAO" class="com.example.main.webapp.AdminDAOImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+</beans>
