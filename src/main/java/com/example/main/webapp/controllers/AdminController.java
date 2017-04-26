@@ -3,7 +3,9 @@ package com.example.main.webapp.controllers;
 import com.example.main.webapp.AdminDAO;
 import com.example.main.webapp.forms.KoordynatorWybor;
 import com.example.main.webapp.models.DaneTurnusu;
+import com.example.main.webapp.models.Dyrektor;
 import com.example.main.webapp.models.Koordynator;
+import com.example.main.webapp.models.Placowka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -50,7 +52,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/koordynatorzy")
-    public String adminPodgladKoordynatorow(/*@RequestParam(value="Koordynator")Optional<Koordynator> koordynator,*/ Model model) {
+    public String adminPodgladKoordynatorow(Model model) {
 //        if(koordynator.isPresent())
 //            dao.usunKoordynatora(koordynator.get());
 
@@ -123,4 +125,63 @@ public class AdminController {
 //        model.addAttribute("koordynator_usuniecie", new KoordynatorWybor());
         return "admin_turnusy_koordynatora";
     }
+
+    @RequestMapping(value = "/placowki")
+    public String adminPlacowki(Model model) {
+        ArrayList<Placowka> placowki=dao.pobierzPlacowki();
+
+        model.addAttribute("placowki", placowki);
+        return "admin_placowki";
+    }
+
+
+//    @RequestMapping(value = "/dyrektorzy")
+//    public String adminPanelDyrektorow(Model model) {
+////        if(koordynator.isPresent())
+////            dao.usunKoordynatora(koordynator.get());
+//
+//        ArrayList<Dyrektor> dyrektorzy=dao.pobierzDyrektorow();
+//        for(Koordynator koord: koordynatory) {
+//            System.out.println(koord.getImie() + " " + koord.getNazwisko());
+//        }
+//        model.addAttribute("koordynatorzy", koordynatory);
+//        model.addAttribute("koordynator_edycja", new KoordynatorWybor());
+//        model.addAttribute("koordynator_usuniecie", new KoordynatorWybor());
+//        return "admin_koordynatorzy_zarzadzanie";
+//    }
+//
+//
+//    @RequestMapping(value="/koordynatorzy/edycja", method = RequestMethod.POST)
+//    public String adminEdycjaKoordynatora(@RequestParam("idkoord") int id_koordynatora, Model model) {
+//        System.out.println("W WIDOKU"+id_koordynatora);
+//        Koordynator koord=dao.pobierzKoordynatora(id_koordynatora);
+//        model.addAttribute("koordynator", koord);
+//        return "admin_koordynator_edycja";
+//    }
+//
+//    @RequestMapping(value="/koordynatorzy/zmiana", method = RequestMethod.POST)
+//    public RedirectView adminZmianaKoordynatora(@ModelAttribute("koordynator") Koordynator koord, Model model) {
+//        System.out.println("W WIDOKU PRZED AKTUALIZACJĄ"+koord.getIdKoordynatora());
+//        dao.uaktualnijKoordynatora(koord);
+//        return new RedirectView("/admin/koordynatorzy");
+//    }
+//
+//    @RequestMapping(value="/koordynatorzy/dodawanie", method = RequestMethod.GET)
+//    public String adminDodawanieKoordynatora(Model model) {
+//        model.addAttribute("koordynator",new Koordynator());
+//        return "admin_koordynatorzy_dodawanie";
+//    }
+//
+//    @RequestMapping(value="/koordynatorzy/dodawanie", method = RequestMethod.POST)
+//    public RedirectView adminDodawanieKoordynatora(@ModelAttribute("koordynator") Koordynator koord, Model model) {
+//        dao.dodajKoordynatora(koord);
+//        return new RedirectView("/admin/koordynatorzy");
+//    }
+//
+//    @RequestMapping(value="/koordynatorzy/usuwanie", method = RequestMethod.POST)
+//    public RedirectView adminUsuwanieKoordynatora(@RequestParam("idkoord") int id_koordynatora, Model model) {
+//        System.out.println("W WIDOKU"+id_koordynatora);
+//        dao.usunKoordynatora(id_koordynatora);
+//        return new RedirectView("/admin/koordynatorzy");
+//    }
 }

@@ -21,7 +21,7 @@
     <a href='<c:url value="/admin/turnusy"/>'><div class="option">Turnusy</div></a>
     <a href='<c:url value="/wolontariusze"/>'><div class="option">Wolontariusze</div></a>
     <a href='<c:url value="/podopieczni"/>'><div class="option">Podopieczni</div></a>
-    <a href='<c:url value="/kontakt"/>'><div class="option">Kontakt</div></a>
+    <a href='<c:url value="/admin/placowki"/>'><div class="option">Placówki</div></a>
     <div style="clear:both;"></div>
 </div>
 </body>
