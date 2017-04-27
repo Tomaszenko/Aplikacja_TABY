@@ -21,7 +21,7 @@
     <form action="/admin/koordynatorzy/edycja" method="POST">
         <select name="idkoord">
             <c:forEach var="koordynator" items="${koordynatorzy}">
-                <option value="${koordynator.idKoordynatora}">${koordynator.idKoordynatora} ${koordynator.nazwisko} ${koordynator.imie}</option>
+                <option value="${koordynator.idKoordynatora}">${koordynator.login}: ${koordynator.nazwisko} ${koordynator.imie}</option>
             </c:forEach>
         </select>
         <input type="submit" value="Edytuj dane koordynatora"/>
@@ -29,7 +29,7 @@
     <form action="/admin/koordynatorzy/usuwanie" method="POST">
         <select name="idkoord">
             <c:forEach var="koordynator" items="${koordynatorzy}">
-                <option value="${koordynator.idKoordynatora}">${koordynator.idKoordynatora} ${koordynator.nazwisko} ${koordynator.imie}</option>
+                <option value="${koordynator.idKoordynatora}">${koordynator.login}: ${koordynator.nazwisko} ${koordynator.imie}</option>
             </c:forEach>
         </select>
         <input type="submit" value="Usuń koordynatora"/>
@@ -37,7 +37,7 @@
     <form action="/admin/turnusy_koordynatora" method="POST">
         <select name="idkoord">
             <c:forEach var="koordynator" items="${koordynatorzy}">
-                <option value="${koordynator.idKoordynatora}">${koordynator.idKoordynatora} ${koordynator.nazwisko} ${koordynator.imie}</option>
+                <option value="${koordynator.idKoordynatora}">${koordynator.login}: ${koordynator.nazwisko} ${koordynator.imie}</option>
             </c:forEach>
         </select>
         <input type="submit" value="Zobacz turnusy koordynatora"/>
@@ -45,13 +45,13 @@
     <table>
         <thead>
             <tr class="naglowek">
-                <th>Id</th><th>Imię</th><th>Nazwisko</th><th>Telefon</th><th>Miasto</th>
+                <th>Login</th><th>Imię</th><th>Nazwisko</th><th>Telefon</th><th>Miasto</th>
             </tr>
         </thead>
         <tbody>
         <c:forEach var="koordynator" items="${koordynatorzy}">
             <tr class="koordynator">
-                <td>${koordynator.idKoordynatora}</td>
+                <td>${koordynator.login}</td>
                 <td>${koordynator.imie}</td>
                 <td>${koordynator.nazwisko}</td>
                 <td>${koordynator.nrTelefonu}</td>

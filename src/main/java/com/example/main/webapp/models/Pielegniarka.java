@@ -1,35 +1,28 @@
 package com.example.main.webapp.models;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
 
 /**
- * Created by Tomek on 14.04.2017.
+ * Created by Tomek on 27.04.2017.
  */
-public class Koordynator {
-    private int idKoordynatora;
+public class Pielegniarka {
+    private int idPielegniarki;
     private String imie;
     private String nazwisko;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date data_urodzenia;
-    private String ulica;
     private String miasto;
-    private int nrTelefonu;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date data_szkolenia;
-    private String login;
+    private String ulica;
+    private int nr_telefonu;
+    private String wyksztalcenie;
+    private int nr_zaswiadczenia_pwz;
     private String haslo;
 
-    public Koordynator() {
+    public int getIdPielegniarki() {
+        return idPielegniarki;
     }
 
-    public int getIdKoordynatora() {
-        return idKoordynatora;
-    }
-
-    public void setIdKoordynatora(int id) {
-        this.idKoordynatora = id;
+    public void setIdPielegniarki(int idPielegniarki) {
+        this.idPielegniarki = idPielegniarki;
     }
 
     public String getImie() {
@@ -56,14 +49,6 @@ public class Koordynator {
         this.data_urodzenia = data_urodzenia;
     }
 
-    public Date getData_szkolenia() {
-        return data_szkolenia;
-    }
-
-    public void setData_szkolenia(Date data_szkolenia) {
-        this.data_szkolenia = data_szkolenia;
-    }
-
     public String getMiasto() {
         return miasto;
     }
@@ -80,20 +65,28 @@ public class Koordynator {
         this.ulica = ulica;
     }
 
-    public int getNrTelefonu() {
-        return nrTelefonu;
+    public int getNr_telefonu() {
+        return nr_telefonu;
     }
 
-    public void setNrTelefonu(int nrTelefonu) {
-        this.nrTelefonu = nrTelefonu;
+    public void setNr_telefonu(int nr_telefonu) {
+        this.nr_telefonu = nr_telefonu;
     }
 
-    public String getLogin() {
-        return login;
+    public String getWyksztalcenie() {
+        return wyksztalcenie;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setWyksztalcenie(String wyksztalcenie) {
+        this.wyksztalcenie = wyksztalcenie;
+    }
+
+    public int getNr_zaswiadczenia_pwz() {
+        return nr_zaswiadczenia_pwz;
+    }
+
+    public void setNr_zaswiadczenia_pwz(int nr_zaswiadczenia_pwz) {
+        this.nr_zaswiadczenia_pwz = nr_zaswiadczenia_pwz;
     }
 
     public String getHaslo() {

@@ -2,10 +2,7 @@ package com.example.main.webapp.controllers;
 
 import com.example.main.webapp.AdminDAO;
 import com.example.main.webapp.forms.KoordynatorWybor;
-import com.example.main.webapp.models.DaneTurnusu;
-import com.example.main.webapp.models.Dyrektor;
-import com.example.main.webapp.models.Koordynator;
-import com.example.main.webapp.models.Placowka;
+import com.example.main.webapp.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -29,7 +26,7 @@ public class AdminController {
     @Autowired
     private AdminDAO dao;
 
-    @RequestMapping(value="")
+    @RequestMapping(value = "")
     public String adminWidok() {
         System.out.println("kukulele");
         return "adminlogin";
@@ -38,7 +35,7 @@ public class AdminController {
     @RequestMapping(value = "/autoryzacja", method = RequestMethod.POST)
     public String adminAutoryzacja(@RequestParam("nazwa") String nazwa,
                                    @RequestParam("haslo") String haslo) {
-        if(dao.zaloguj(nazwa,haslo))
+        if (dao.zaloguj(nazwa, haslo))
             return "adminstrona";
         else
             return "adminlogin";
@@ -56,8 +53,8 @@ public class AdminController {
 //        if(koordynator.isPresent())
 //            dao.usunKoordynatora(koordynator.get());
 
-        ArrayList<Koordynator> koordynatory=dao.pobierzKoordynatorow();
-        for(Koordynator koord: koordynatory) {
+        ArrayList<Koordynator> koordynatory = dao.pobierzKoordynatorow();
+        for (Koordynator koord : koordynatory) {
             System.out.println(koord.getImie() + " " + koord.getNazwisko());
         }
         model.addAttribute("koordynatorzy", koordynatory);
@@ -66,56 +63,56 @@ public class AdminController {
         return "admin_koordynatorzy_zarzadzanie";
     }
 
-    @RequestMapping(value="/koordynatorzy/edycja", method = RequestMethod.POST)
+    @RequestMapping(value = "/koordynatorzy/edycja", method = RequestMethod.POST)
     public String adminEdycjaKoordynatora(@RequestParam("idkoord") int id_koordynatora, Model model) {
-        System.out.println("W WIDOKU"+id_koordynatora);
-        Koordynator koord=dao.pobierzKoordynatora(id_koordynatora);
+        System.out.println("W WIDOKU" + id_koordynatora);
+        Koordynator koord = dao.pobierzKoordynatora(id_koordynatora);
         model.addAttribute("koordynator", koord);
         return "admin_koordynator_edycja";
     }
 
-    @RequestMapping(value="/koordynatorzy/zmiana", method = RequestMethod.POST)
+    @RequestMapping(value = "/koordynatorzy/zmiana", method = RequestMethod.POST)
     public RedirectView adminZmianaKoordynatora(@ModelAttribute("koordynator") Koordynator koord, Model model) {
-        System.out.println("W WIDOKU PRZED AKTUALIZACJĄ"+koord.getIdKoordynatora());
+        System.out.println("W WIDOKU PRZED AKTUALIZACJĄ" + koord.getIdKoordynatora());
         dao.uaktualnijKoordynatora(koord);
         return new RedirectView("/admin/koordynatorzy");
     }
 
-    @RequestMapping(value="/koordynatorzy/dodawanie", method = RequestMethod.GET)
+    @RequestMapping(value = "/koordynatorzy/dodawanie", method = RequestMethod.GET)
     public String adminDodawanieKoordynatora(Model model) {
-        model.addAttribute("koordynator",new Koordynator());
+        model.addAttribute("koordynator", new Koordynator());
         return "admin_koordynatorzy_dodawanie";
     }
 
-    @RequestMapping(value="/koordynatorzy/dodawanie", method = RequestMethod.POST)
+    @RequestMapping(value = "/koordynatorzy/dodawanie", method = RequestMethod.POST)
     public RedirectView adminDodawanieKoordynatora(@ModelAttribute("koordynator") Koordynator koord, Model model) {
         dao.dodajKoordynatora(koord);
         return new RedirectView("/admin/koordynatorzy");
     }
 
-    @RequestMapping(value="/koordynatorzy/usuwanie", method = RequestMethod.POST)
+    @RequestMapping(value = "/koordynatorzy/usuwanie", method = RequestMethod.POST)
     public RedirectView adminUsuwanieKoordynatora(@RequestParam("idkoord") int id_koordynatora, Model model) {
-        System.out.println("W WIDOKU"+id_koordynatora);
+        System.out.println("W WIDOKU" + id_koordynatora);
         dao.usunKoordynatora(id_koordynatora);
         return new RedirectView("/admin/koordynatorzy");
     }
 
-    @RequestMapping(value = "/turnusy")
-    public String adminTurnusy(Model model) {
-//        ArrayList<Koordynator> koordynatory=dao.pobierzKoordynatorow();
-//        for(Koordynator koord: koordynatory) {
-//            System.out.println(koord.getImie() + " " + koord.getNazwisko());
-//        }
-//        model.addAttribute("koordynatorzy", koordynatory);
-//        model.addAttribute("koordynator_edycja", new KoordynatorWybor());
-//        model.addAttribute("koordynator_usuniecie", new KoordynatorWybor());
-        return "admin_koordynatorzy";
-    }
+//    @RequestMapping(value = "/admin/turnusy")
+//    public String adminTurnusy(Model model) {
+////        ArrayList<Koordynator> koordynatory=dao.pobierzKoordynatorow();
+////        for(Koordynator koord: koordynatory) {
+////            System.out.println(koord.getImie() + " " + koord.getNazwisko());
+////        }
+////        model.addAttribute("koordynatorzy", koordynatory);
+////        model.addAttribute("koordynator_edycja", new KoordynatorWybor());
+////        model.addAttribute("koordynator_usuniecie", new KoordynatorWybor());
+//        return "admin_koordynatorzy";
+//    }
 
     @RequestMapping(value = "/turnusy_koordynatora")
     public String adminTurnusyKoordynatora(@RequestParam("idkoord") int id, Model model) {
-        Koordynator koord=dao.pobierzKoordynatora(id);
-        ArrayList<DaneTurnusu> turnusy=dao.pobierzTurnusyKoordynatora(id);
+        Koordynator koord = dao.pobierzKoordynatora(id);
+        ArrayList<DaneTurnusu> turnusy = dao.pobierzTurnusyKoordynatora(id);
 //        for(DaneTurnusu turnus: turnusy) {
 //            System.out.println(koord.getImie() + " " + koord.getNazwisko());
 //        }
@@ -128,20 +125,43 @@ public class AdminController {
 
     @RequestMapping(value = "/placowki")
     public String adminPlacowki(Model model) {
-        ArrayList<Placowka> placowki=dao.pobierzPlacowki();
+        ArrayList<Placowka> placowki = dao.pobierzPlacowki();
 
         model.addAttribute("placowki", placowki);
         return "admin_placowki";
     }
 
+    @RequestMapping(value = "/turnusy")
+    public String adminZarzadzanieTurnusami(Model model) {
+        ArrayList<DaneTurnusu> turnusy = dao.pobierzTurnusy();
+        model.addAttribute("turnusy", turnusy);
+        return "admin_turnusy";
+    }
 
-//    @RequestMapping(value = "/dyrektorzy")
-//    public String adminPanelDyrektorow(Model model) {
-////        if(koordynator.isPresent())
-////            dao.usunKoordynatora(koordynator.get());
-//
-//        ArrayList<Dyrektor> dyrektorzy=dao.pobierzDyrektorow();
-//        for(Koordynator koord: koordynatory) {
+    @RequestMapping(value="/turnusy/dodawanie", method = RequestMethod.GET)
+    public String adminDodawanieTurnusu(Model model) {
+        ArrayList<Placowka> placowki=dao.pobierzPlacowki();
+        ArrayList<Koordynator> koordynatorzy=dao.pobierzKoordynatorow();
+        ArrayList<Ksiadz> ksieza=dao.pobierzKsiezy();
+        ArrayList<Pielegniarka> pielegniarki=dao.pobierzPielegniarki();
+
+        model.addAttribute("placowki", placowki);
+        model.addAttribute("koordynatorzy", koordynatorzy);
+        model.addAttribute("ksieza", ksieza);
+        model.addAttribute("pielegniarki", pielegniarki);
+        model.addAttribute("turnus", new DodawanyTurnus());
+        return "admin_turnus_dodawanie";
+    }
+
+    @RequestMapping(value="/turnusy/dodawanie", method = RequestMethod.POST)
+    public String adminDodanieTurnusu(@ModelAttribute("turnus") DodawanyTurnus turnus) {
+        dao.dodajTurnus(turnus);
+    }
+
+//    @RequestMapping(value = "/admin/ksieza")
+//    public String adminPodgladKsiezy(Model model) {
+//        ArrayList<Ksiadz> ksieza = dao.pobierzKsiezy();
+//        for (Koordynator koord : koordynatory) {
 //            System.out.println(koord.getImie() + " " + koord.getNazwisko());
 //        }
 //        model.addAttribute("koordynatorzy", koordynatory);
@@ -149,39 +169,7 @@ public class AdminController {
 //        model.addAttribute("koordynator_usuniecie", new KoordynatorWybor());
 //        return "admin_koordynatorzy_zarzadzanie";
 //    }
-//
-//
-//    @RequestMapping(value="/koordynatorzy/edycja", method = RequestMethod.POST)
-//    public String adminEdycjaKoordynatora(@RequestParam("idkoord") int id_koordynatora, Model model) {
-//        System.out.println("W WIDOKU"+id_koordynatora);
-//        Koordynator koord=dao.pobierzKoordynatora(id_koordynatora);
-//        model.addAttribute("koordynator", koord);
-//        return "admin_koordynator_edycja";
-//    }
-//
-//    @RequestMapping(value="/koordynatorzy/zmiana", method = RequestMethod.POST)
-//    public RedirectView adminZmianaKoordynatora(@ModelAttribute("koordynator") Koordynator koord, Model model) {
-//        System.out.println("W WIDOKU PRZED AKTUALIZACJĄ"+koord.getIdKoordynatora());
-//        dao.uaktualnijKoordynatora(koord);
-//        return new RedirectView("/admin/koordynatorzy");
-//    }
-//
-//    @RequestMapping(value="/koordynatorzy/dodawanie", method = RequestMethod.GET)
-//    public String adminDodawanieKoordynatora(Model model) {
-//        model.addAttribute("koordynator",new Koordynator());
-//        return "admin_koordynatorzy_dodawanie";
-//    }
-//
-//    @RequestMapping(value="/koordynatorzy/dodawanie", method = RequestMethod.POST)
-//    public RedirectView adminDodawanieKoordynatora(@ModelAttribute("koordynator") Koordynator koord, Model model) {
-//        dao.dodajKoordynatora(koord);
-//        return new RedirectView("/admin/koordynatorzy");
-//    }
-//
-//    @RequestMapping(value="/koordynatorzy/usuwanie", method = RequestMethod.POST)
-//    public RedirectView adminUsuwanieKoordynatora(@RequestParam("idkoord") int id_koordynatora, Model model) {
-//        System.out.println("W WIDOKU"+id_koordynatora);
-//        dao.usunKoordynatora(id_koordynatora);
-//        return new RedirectView("/admin/koordynatorzy");
-//    }
+
+
+
 }

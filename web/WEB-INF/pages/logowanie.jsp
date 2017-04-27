@@ -52,11 +52,11 @@
     </div>
 
     <div id="content">
-        <form:form method="POST" action="/koordynator/autoryzacja">
+        <form:form method="POST" action="/koordynator/login">
             <span class="mytitle">Koordynator</span>
             <div style="height: 30px;"></div>
             <label for="login">Login</label>
-            <input type="text" id="login" name="nazwaPlacowki">
+            <input type="text" id="login" name="login">
             <br/><br/>
             <label for="password">Hasło</label>
             <input type="password" id="password" name="haslo">

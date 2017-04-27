@@ -52,6 +52,11 @@
     <form:input id="ulica" path="ulica"/>
     <br/><br/>
 
+    <label for="login">Login</label>
+    <br/>
+    <form:input id="login" path="login"/>
+    <br/><br/>
+
     <label for="haslo">Hasło</label>
     <br/>
     <form:input id="haslo" path="haslo"/>

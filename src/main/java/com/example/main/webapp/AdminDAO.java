@@ -1,9 +1,6 @@
 package com.example.main.webapp;
 
-import com.example.main.webapp.models.DaneTurnusu;
-import com.example.main.webapp.models.Dyrektor;
-import com.example.main.webapp.models.Koordynator;
-import com.example.main.webapp.models.Placowka;
+import com.example.main.webapp.models.*;
 
 import java.util.ArrayList;
 
@@ -18,8 +15,14 @@ public interface AdminDAO {
     public void usunKoordynatora(int koordynatorId);
     public void dodajKoordynatora(Koordynator koordynator);
 
-    public ArrayList<DaneTurnusu> pobierzTurnusyKoordynatora(int koordynatorID);
+    public ArrayList<DaneTurnusu> pobierzTurnusyKoordynatora(int koordId);
 
     public ArrayList<Placowka> pobierzPlacowki();
     public Dyrektor pobierzDyrektoraPlacowki(int placowkaId);
+    public void ustawDyrektoraPlacowki(int placowkaId, int dyrektorId);
+
+    public ArrayList<DaneTurnusu> pobierzTurnusy();
+
+    public ArrayList<Ksiadz> pobierzKsiezy();
+    public ArrayList<Pielegniarka> pobierzPielegniarki();
 }

@@ -15,6 +15,7 @@ public class DaneTurnusu {
     private Date data_k;
     private String miasto;
     private String nazwaPlacowki;
+    private int telefonKoordynatora;
     private int telefonDyrektora;
     private int telefonPielegniarki;
     private int telefonKsiedza;
@@ -57,6 +58,14 @@ public class DaneTurnusu {
 
     public void setNazwaPlacowki(String nazwaPlacowki) {
         this.nazwaPlacowki = nazwaPlacowki;
+    }
+
+    public int getTelefonKoordynatora() {
+        return telefonKoordynatora;
+    }
+
+    public void setTelefonKoordynatora(int telefonKoordynatora) {
+        this.telefonKoordynatora = telefonKoordynatora;
     }
 
     public int getTelefonDyrektora() {

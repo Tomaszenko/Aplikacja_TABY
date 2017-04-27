@@ -21,7 +21,7 @@
 <form action="/admin/placowki/edycja" method="POST">
     <select name="idplac">
         <c:forEach var="placowka" items="${placowki}">
-            <option value="${placowka.idPlacowki}">${placowka.id} ${placowka.nazwa}</option>
+            <option value="${placowka.idPlacowki}">${placowka.idPlacowki}: ${placowka.nazwa}</option>
         </c:forEach>
     </select>
     <input type="submit" value="Edytuj dane placówki"/>
@@ -29,7 +29,7 @@
 <form action="/admin/placowki/usuwanie" method="POST">
     <select name="idplac">
         <c:forEach var="placowka" items="${placowki}">
-            <option value="${placowka.idPlacowki}">${placowka.id} ${placowka.nazwa}</option>
+            <option value="${placowka.idPlacowki}">${placowka.idPlacowki}: ${placowka.nazwa}</option>
         </c:forEach>
     </select>
     <input type="submit" value="Usuń placówkę"/>

@@ -1,9 +1,6 @@
 package com.example.main.webapp;
 
-import com.example.main.webapp.models.DaneTurnusu;
-import com.example.main.webapp.models.Dyrektor;
-import com.example.main.webapp.models.Koordynator;
-import com.example.main.webapp.models.Placowka;
+import com.example.main.webapp.models.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -79,6 +77,7 @@ public class AdminDAOImpl implements AdminDAO {
                         kord.setMiasto(rs.getString("miasto"));
                         kord.setNrTelefonu(rs.getInt("nr_telefonu"));
                         kord.setUlica(rs.getString("ulica"));
+                        kord.setLogin(rs.getString("login"));
                         kord.setHaslo(rs.getString("haslo"));
                         return kord;
                     }
@@ -109,6 +108,7 @@ public class AdminDAOImpl implements AdminDAO {
                                         addValue("p_miasto", koordynator.getMiasto(), Types.VARCHAR).
                                         addValue("p_ulica", koordynator.getUlica(), Types.VARCHAR).
                                         addValue("p_nrtelefonu", koordynator.getNrTelefonu(), Types.NUMERIC).
+                                        addValue("p_login", koordynator.getLogin(), Types.VARCHAR).
                                         addValue("p_haslo", koordynator.getHaslo(), Types.VARCHAR);
         BigDecimal czyZaktualizowano = funcUaktualnijKoordynatora.executeFunction(BigDecimal.class, in);
         if(czyZaktualizowano.intValue()==1)
@@ -143,19 +143,20 @@ public class AdminDAOImpl implements AdminDAO {
                 addValue("p_miasto", koordynator.getMiasto(), Types.VARCHAR).
                 addValue("p_ulica", koordynator.getUlica(), Types.VARCHAR).
                 addValue("p_nrtelefonu", koordynator.getNrTelefonu(), Types.NUMERIC).
+                addValue("p_login", koordynator.getLogin(), Types.VARCHAR).
                 addValue("p_haslo", koordynator.getHaslo(), Types.VARCHAR);
 
         funcDodajKoordynatora.execute(in);
     }
 
     @Override
-    public ArrayList<DaneTurnusu> pobierzTurnusyKoordynatora(int koordynatorId) {
+    public ArrayList<DaneTurnusu> pobierzTurnusyKoordynatora(int koordId) {
         SimpleJdbcCall funcGetDaneTurnusow = new SimpleJdbcCall(jdbcTemplate).
                 withCatalogName("admin_funkcje").withFunctionName("pobierzTurnusyKoordynatora").
                 returningResultSet("turnusy", new BeanPropertyRowMapper<DaneTurnusu>(DaneTurnusu.class));
 
         ArrayList<DaneTurnusu> wyniki=new ArrayList<>();
-        Map m = funcGetDaneTurnusow.execute(koordynatorId, new HashMap<String, Object>(0));
+        Map m = funcGetDaneTurnusow.execute(koordId, new HashMap<String, Object>(0));
         for( Object turnus: (ArrayList) m.get("turnusy")) {
             DaneTurnusu dodawany=(DaneTurnusu) turnus;
             wyniki.add(dodawany);
@@ -179,13 +180,13 @@ public class AdminDAOImpl implements AdminDAO {
     }
 
     @Override
-    public Dyrektor pobierzDyrektoraPlacowki(int dyrektorId) {
+    public Dyrektor pobierzDyrektoraPlacowki(int placowkaId) {
         SimpleJdbcCall funcGetDyrektora = new SimpleJdbcCall(jdbcTemplate).
                 withCatalogName("admin_funkcje").withFunctionName("pobierzDyrektoraPlacowki").
                 returningResultSet("placowki", new BeanPropertyRowMapper<Placowka>(Placowka.class));
 
         SqlParameterSource in = new MapSqlParameterSource().
-                addValue("p_id", dyrektorId, Types.NUMERIC);
+                addValue("p_id", placowkaId, Types.NUMERIC);
 
         Map<String, Object> simpleJdbcCallResult = funcGetDyrektora.execute(in);
         Dyrektor dyrektor=new Dyrektor();
@@ -194,6 +195,63 @@ public class AdminDAOImpl implements AdminDAO {
         dyrektor.setNazwisko((String)simpleJdbcCallResult.get("nazwisko"));
         dyrektor.setNrTelefonu((Integer)simpleJdbcCallResult.get("nr_telefonu"));
         return dyrektor;
+    }
+
+    @Override
+    public void ustawDyrektoraPlacowki(int placowkaId, int dyrektorId) {
+        SimpleJdbcCall funcUstawDyrektora = new SimpleJdbcCall(jdbcTemplate).
+                withCatalogName("admin_funkcje").withProcedureName("ustawDyrektoraPlacowki");
+
+        SqlParameterSource in = new MapSqlParameterSource().
+                addValue("p_pid", placowkaId, Types.NUMERIC).
+                addValue("p_did", dyrektorId, Types.NUMERIC);
+
+        funcUstawDyrektora.execute(in);
+    }
+
+    @Override
+    public ArrayList<DaneTurnusu> pobierzTurnusy() {
+        SimpleJdbcCall funcGetTurnusy = new SimpleJdbcCall(jdbcTemplate).
+                withCatalogName("admin_funkcje").withFunctionName("pobierzTurnusy").
+                returningResultSet("turnusy", new BeanPropertyRowMapper<DaneTurnusu>(DaneTurnusu.class));
+
+        ArrayList<DaneTurnusu> wyniki=new ArrayList<>();
+        Map m = funcGetTurnusy.execute(new HashMap<String, Object>(0));
+        for( Object turnus: (ArrayList) m.get("turnusy")) {
+            DaneTurnusu dodawany=(DaneTurnusu) turnus;
+            wyniki.add(dodawany);
+        }
+        return wyniki;
+    }
+
+    @Override
+    public ArrayList<Ksiadz> pobierzKsiezy() {
+        SimpleJdbcCall funcGetKsiezy = new SimpleJdbcCall(jdbcTemplate).
+                withCatalogName("admin_funkcje").withFunctionName("pobierzKsiezy").
+                returningResultSet("ksieza", new BeanPropertyRowMapper<Ksiadz>(Ksiadz.class));
+
+        ArrayList<Ksiadz> wyniki=new ArrayList<>();
+        Map m = funcGetKsiezy.execute(new HashMap<String, Object>(0));
+        for( Object ksiadz: (ArrayList) m.get("ksieza")) {
+            Ksiadz dodawany=(Ksiadz) ksiadz;
+            wyniki.add(dodawany);
+        }
+        return wyniki;
+    }
+
+    @Override
+    public ArrayList<Pielegniarka> pobierzPielegniarki() {
+        SimpleJdbcCall funcGetPielegniarki = new SimpleJdbcCall(jdbcTemplate).
+                withCatalogName("admin_funkcje").withFunctionName("pobierzPielegniarki").
+                returningResultSet("pielegniarki", new BeanPropertyRowMapper<Pielegniarka>(Pielegniarka.class));
+
+        ArrayList<Pielegniarka> wyniki=new ArrayList<>();
+        Map m = funcGetPielegniarki.execute(new HashMap<String, Object>(0));
+        for( Object pielegniarka: (ArrayList) m.get("pielegniarki")) {
+            Pielegniarka dodawana=(Pielegniarka) pielegniarka;
+            wyniki.add(dodawana);
+        }
+        return wyniki;
     }
 
     private final String koordynator_select="SELECT * FROM koordynator WHERE id_koordynatora=?";
